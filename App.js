@@ -19,38 +19,46 @@ function GoBackIcon(props) {
 
 
 
-SettingsIcon = <Button transparent >
-                  <Icon name='settings' style={{ color: 'black' }} />
-                </Button>
+SettingsIcon = (props) => {
+  return (
+    <Button transparent onPress={() => {
+      props.navigation.navigate("Settings",props.scene.route.params)
+    }}>
+      <Icon name='settings' style={{ color: 'black' }} />
+    </Button>
+  )
+}
 
 
 function App() {
   return (
     <NavigationContainer>
-      <Stack.Navigator  >
-        <Stack.Screen name="Home" component={Home} 
+      <Stack.Navigator   >
+        <Stack.Screen name="Home" component={Home}
           options={{
-            header: (props) =>{
-              return(<MyHeader title="Home"></MyHeader>)
+            header: (props) => {
+              return (<MyHeader title="Home"></MyHeader>)
             }
-          }}/>
+          }} />
         <Stack.Screen name="Controller" component={Controller} options={{
           header: (props) => {
             return (
               <MyHeader
                 leftIcon={GoBackIcon(props)}
-                rightIcon={SettingsIcon}
+                rightIcon={SettingsIcon(props)}
                 title="Controller"
               ></MyHeader>
             )
           }
         }} />
-        <Stack.Screen name="Settings" component={Settings} options={{
-          header: (props) => {
-            <MyHeader leftIcon={GoBackIcon(props)}></MyHeader>
-          }
+        <Stack.Screen  name="Settings" component={Settings} options={{
+          header: (props) => {
+            return(
+            <MyHeader title='Settings' leftIcon={GoBackIcon(props)}></MyHeader>)
+          },
+          gestureEnabled: false,
         }}></Stack.Screen>
-      </Stack.Navigator>
+      </Stack.Navigator >
     </NavigationContainer>
   );
 }

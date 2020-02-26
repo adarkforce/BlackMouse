@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { View, KeyboardAvoidingView, TextInput, Keyboard,StyleSheet, Dimensions } from 'react-native';
+import { View, KeyboardAvoidingView, TextInput, Keyboard, StyleSheet, Dimensions } from 'react-native';
 //import {PanGestureHandler} from 
 import * as Elements from 'react-native-elements'
 import * as NativeBase from 'native-base'
@@ -9,7 +9,7 @@ PORT = 3000
 STATE_IN_WHICH_USER_CLICKS = 4;
 class Controller extends React.Component {
 
-    
+
 
     state = {
         keyboardShowing: false,
@@ -24,7 +24,7 @@ class Controller extends React.Component {
             port: props.route.params.port,
             keyboardShowing: false,
         }
-        this.webServiceCaller = new WebServiceClient(props.route.params.ip,props.route.params.port);
+        this.webServiceCaller = new WebServiceClient(props.route.params.ip, props.route.params.port);
         console.log(this.webServiceCaller.ip);
         this._keyboardDidShow = this._keyboardDidShow.bind(this);
         this._keyboardDidHide = this._keyboardDidHide.bind(this);
@@ -56,8 +56,7 @@ class Controller extends React.Component {
         }
     }
 
-
-    componentDidMount(){
+    componentDidMount() {
         //this.webServiceCaller = new WebServiceClient(this.state.ip,this.state.port);
         this.keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', this._keyboardDidShow);
         this.keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', this._keyboardDidHide);
@@ -98,19 +97,21 @@ class Controller extends React.Component {
     }
 
     async _handlePanGesture(event) {
-        
-        try {
-            await this.webServiceCaller.moveMouse(event);
-        } catch (err) {
-            console.warn(err);
+        var { nativeEvent } = event;
+        if (nativeEvent.numberOfPointers == 2) {
+            this._callScroll(nativeEvent);
+        } else if (nativeEvent.numberOfPointers == 1){
+            try {
+                await this.webServiceCaller.moveMouse(event);
+            } catch (err) {
+                console.warn(err);
+            }
         }
     }
 
     async _callScroll(event) {
         try {
-            await fetch('http://' + this.props.route.params.ip + ":" + PORT + "/Scroll", {
-                mathod: 'POST'
-            })
+            await this.webServiceCaller.callScroll(event);
         } catch (err) {
             console.warn(err);
         }
@@ -125,14 +126,14 @@ class Controller extends React.Component {
                         <PanGestureHandler
                             style={{ flex: 1, backgroundColor: 'black' }}
                             onGestureEvent={this._handlePanGesture}
-                            minDist={0}
+                            minDist={0}                            
                         >
                             <View style={{ flex: 1, backgroundColor: 'black' }} ></View>
                         </PanGestureHandler>
                     </TapGestureHandler>
                     <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : null} style={{ flex: .4 }}>
                         <View style={{ flex: 1, backgroundColor: 'white' }} >
-                            <NativeBase.Card style={{ justifyContent: 'center',flex:1}}>
+                            <NativeBase.Card style={{ justifyContent: 'center', flex: 1 }}>
                                 <TextInput
                                     style={{ height: 0, width: 0, borderWidth: 0 }}
                                     ref={ref => {

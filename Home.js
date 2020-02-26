@@ -109,7 +109,6 @@ class Home extends React.Component {
         </Elements.Overlay>
         <Elements.Tile
           imageSrc={require('./2.jpg')}
-          
           title="Let's start!"
           activeOpacity={1.0}
           featured

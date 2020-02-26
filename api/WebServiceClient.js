@@ -2,6 +2,12 @@ RIGHT_MOUSE_CLICK_URI = "/MouseRightClick";
 LEFT_MOUSE_CLICK_URI = "/MouseLeftClick";
 MOUSE_POSITION_URI = "/MousePosition";
 KEYBOARD_URI = "/KeyHandler";
+SCROLL_URI = "/Scroll"
+GET_SCROLL_SENSITIVITY_URI = "/getScrollSensitivity"
+GET_POINTER_SENSITIVITY_URI = "/getPointerSensitivity"
+POST_SCROLL_SENSITIVITY_URI = "/postScrollSensitivity"
+POST_POINTER_SENSITIVITY_URI = "/postPointerSensitivity"
+
 
 class WebServiceClient {
 
@@ -66,6 +72,78 @@ class WebServiceClient {
             console.warn(err);
         }
     }
+
+    async callScroll(event){
+        try {
+            await fetch('http://' + this.ip + ":" + this.port + SCROLL_URI, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    scrollX: event.velocityX,
+                    scrollY: event.velocityY,
+                })
+            })
+        } catch (err) {
+            console.warn(err);
+        }
+    }
+
+    async getScrollSensitivity(){
+        try {
+            var res = await fetch('http://' + this.ip + ":" + this.port + GET_SCROLL_SENSITIVITY_URI, {
+                method: "GET",
+            })
+            return res;
+        } catch (err) {
+            console.warn(err);
+            return err;
+        }
+    }
+
+    async getPointerSensitivity(){
+        try {
+            var res = await fetch('http://' + this.ip + ":" + this.port + GET_POINTER_SENSITIVITY_URI, {
+                method: "GET",
+            })
+            return res;
+        } catch (err) {
+            console.warn(err);
+            return err;
+        }
+    }
+
+    async postPointerSensitivity(value){
+        try {
+            var res = await fetch('http://' + this.ip + ":" + this.port + POST_POINTER_SENSITIVITY_URI, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    
+                    pointerSensitivity: value,
+                })
+            })
+            return res;
+        } catch (err) {
+            console.warn(err);
+            return err;
+        }
+    }
+    async postScrollSensitivity(value){
+        try {
+            var res = await fetch('http://' + this.ip + ":" + this.port + POST_SCROLL_SENSITIVITY_URI, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    scrollSensitivity: value,
+                })
+            })
+            return res;
+        } catch (err) {
+            console.warn(err);
+            return err;
+        }
+    }
+
 }
 
 export default WebServiceClient;
