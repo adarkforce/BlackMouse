@@ -2,12 +2,12 @@ import * as React from 'react';
 import { View, Text } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-import Home from './Home'
-import Controller from './Controller'
+import Home from './src/components/Home'
+import Controller from './src/components/Controller'
 import { Button, Icon } from 'native-base';
-import Settings from './Settings'
+import Settings from './src/components/Settings'
 import { Colors } from 'react-native/Libraries/NewAppScreen';
-import MyHeader from './Header';
+import MyHeader from './src/components/Header';
 const Stack = createStackNavigator();
 
 function GoBackIcon(props) {

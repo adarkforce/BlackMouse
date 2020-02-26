@@ -3,7 +3,7 @@ import { StyleSheet } from 'react-native'
 import { exp } from 'react-native-reanimated';
 import * as NativeBase from 'native-base'
 import { Slider } from 'react-native-elements';
-import WebServiceClient from './api/WebServiceClient';
+import WebServiceClient from '../api/WebServiceClient';
 
 class Settings extends React.Component {
 
@@ -15,8 +15,6 @@ class Settings extends React.Component {
             pointerValue: 0,
             scrollValue: 0,
         }
-
-
     }
 
     componentDidMount() {

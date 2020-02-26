@@ -1,22 +1,17 @@
 import * as React from 'react';
 import { View, KeyboardAvoidingView, TextInput, Keyboard, StyleSheet, Dimensions } from 'react-native';
-//import {PanGestureHandler} from 
 import * as Elements from 'react-native-elements'
 import * as NativeBase from 'native-base'
 import { PanGestureHandler, TapGestureHandler, LongPressGestureHandler } from 'react-native-gesture-handler'
-import WebServiceClient from './api/WebServiceClient';
-PORT = 3000
+import WebServiceClient from '../api/WebServiceClient';
+
+
 STATE_IN_WHICH_USER_CLICKS = 4;
+
 class Controller extends React.Component {
 
-
-
-    state = {
-        keyboardShowing: false,
-    }
     constructor(props) {
         super(props);
-        console.log(props.route.params.port)
         this.ip = props.route.params.ip
         this.port = props.route.params.port
         this.state = {
@@ -25,7 +20,6 @@ class Controller extends React.Component {
             keyboardShowing: false,
         }
         this.webServiceCaller = new WebServiceClient(props.route.params.ip, props.route.params.port);
-        console.log(this.webServiceCaller.ip);
         this._keyboardDidShow = this._keyboardDidShow.bind(this);
         this._keyboardDidHide = this._keyboardDidHide.bind(this);
         this._handlePanGesture = this._handlePanGesture.bind(this);
@@ -33,6 +27,7 @@ class Controller extends React.Component {
         this._callMouseLeftClick = this._callMouseLeftClick.bind(this);
         this._callMouseRightClick = this._callMouseRightClick.bind(this);
         this._sendKeyboardKey = this._sendKeyboardKey.bind(this);
+
         this.keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', this._keyboardDidShow);
         this.keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', this._keyboardDidHide);
     }
@@ -100,7 +95,7 @@ class Controller extends React.Component {
         var { nativeEvent } = event;
         if (nativeEvent.numberOfPointers == 2) {
             this._callScroll(nativeEvent);
-        } else if (nativeEvent.numberOfPointers == 1){
+        } else if (nativeEvent.numberOfPointers == 1) {
             try {
                 await this.webServiceCaller.moveMouse(event);
             } catch (err) {
@@ -126,7 +121,7 @@ class Controller extends React.Component {
                         <PanGestureHandler
                             style={{ flex: 1, backgroundColor: 'black' }}
                             onGestureEvent={this._handlePanGesture}
-                            minDist={0}                            
+                            minDist={0}
                         >
                             <View style={{ flex: 1, backgroundColor: 'black' }} ></View>
                         </PanGestureHandler>

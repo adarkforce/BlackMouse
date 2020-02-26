@@ -82,7 +82,6 @@ class LANScanner {
 
                 scanHost(ipRange[i], this.portRange[0])
                     .then(response => {
-                        //console.log(response);
                         if (response.ip) {
                             console.log(response);
                             callbackFunction(response.ip, response.port);

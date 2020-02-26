@@ -10,7 +10,7 @@ import {
 import {
   Colors,
 } from 'react-native/Libraries/NewAppScreen';
-import LANScanner from "./api/LANScanner"
+import LANScanner from "../api/LANScanner"
 
 computerIcon = <Elements.Icon
   name='desktop'
@@ -37,6 +37,10 @@ class Home extends React.Component {
     this.sendRequest = this.sendRequest.bind(this);
     this.lookForAvailableNetworks = this.lookForAvailableNetworks.bind(this);
     this.onPressReloadButton = this.onPressReloadButton.bind(this);
+    
+  }
+
+  componentDidMount(){
     this.lookForAvailableNetworks()
     .then(()=>{
       console.log('lookup successful');
@@ -45,7 +49,6 @@ class Home extends React.Component {
       console.warn(err);
     });
   }
-
 
   sendRequest = async (ip_address, port_number) => {
     try {
@@ -59,7 +62,6 @@ class Home extends React.Component {
             this.newList = this.state.serverList
             var index = this.newList.findIndex(x => x.key == resJson.name)
             index === -1 && this.newList.push({ key: resJson.name, ip: ip_address, port: port_number });
-            console.log(this.newList);
             this.setState(() => ({
               serverList: this.newList,
               isOverlayVisible: false,
@@ -105,10 +107,10 @@ class Home extends React.Component {
     return (
       <>
         <Elements.Overlay fullScreen animated isVisible={this.state.isOverlayVisible}>
-          <ActivityIndicator style={{ flex: 1, }} size="large" color="#000000" />
+          <ActivityIndicator style={{ flex: 1, }} size="large" color="black" />
         </Elements.Overlay>
         <Elements.Tile
-          imageSrc={require('./2.jpg')}
+          imageSrc={require('../img/2.jpg')}
           title="Let's start!"
           activeOpacity={1.0}
           featured
