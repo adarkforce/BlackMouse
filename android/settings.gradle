@@ -1,3 +1,5 @@
 rootProject.name = 'MyAwesomeProject'
+include ':react-native-custom-module'
+project(':react-native-custom-module').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-custom-module/android')
 apply from: file("../node_modules/@react-native-community/cli-platform-android/native_modules.gradle"); applyNativeModulesSettingsGradle(settings)
 include ':app'

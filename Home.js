@@ -10,30 +10,22 @@ import {
 import {
   Colors,
 } from 'react-native/Libraries/NewAppScreen';
+import LANScanner from "./api/LANScanner"
 
-const PORT = 3000;
+computerIcon = <Elements.Icon
+  name='desktop'
+  type='font-awesome'
+  color='black'
+/>
 
+arrowIcon = <Elements.Icon
+  name='chevron-right'
+  type='font-awesome' />
 
 class Home extends React.Component {
 
   newList = [];
-  computerIcon = <Elements.Icon
-    //reverse
-    name='desktop'
-    type='font-awesome'
-    color='black'
-  />
 
-
-  reloadIcon = <Elements.Icon
-    name='cached'
-    type='material'
-    color='white'
-  />
-
-  arrowIcon = <Elements.Icon
-    name='chevron-right'
-    type='font-awesome' />
   constructor(props) {
     super(props);
 
@@ -41,14 +33,23 @@ class Home extends React.Component {
       serverList: [],
       isOverlayVisible: false,
     };
+    this.lanscan = new LANScanner()
     this.sendRequest = this.sendRequest.bind(this);
     this.lookForAvailableNetworks = this.lookForAvailableNetworks.bind(this);
     this.onPressReloadButton = this.onPressReloadButton.bind(this);
-    //
+    this.lookForAvailableNetworks()
+    .then(()=>{
+      console.log('lookup successful');
+    })
+    .catch((err)=>{
+      console.warn(err);
+    });
   }
-  sendRequest = async (ip_address) => {
+
+
+  sendRequest = async (ip_address, port_number) => {
     try {
-      await fetch("http://" + ip_address + ":" + PORT + "/", {
+      await fetch("http://" + ip_address + ":" + port_number + "/", {
         method: 'get',
       })
         .then((res) => res.json())
@@ -57,7 +58,7 @@ class Home extends React.Component {
           if (resJson) {
             this.newList = this.state.serverList
             var index = this.newList.findIndex(x => x.key == resJson.name)
-            index === -1 && this.newList.push({ key: resJson.name,ip:ip_address });
+            index === -1 && this.newList.push({ key: resJson.name, ip: ip_address, port: port_number });
             console.log(this.newList);
             this.setState(() => ({
               serverList: this.newList,
@@ -72,19 +73,11 @@ class Home extends React.Component {
   }
   lookForAvailableNetworks = async () => {
     console.log("clicked");
-    devices=["192.168.1.26",]   
-      for (var i = 0; i < devices.length; i++) { 
-        console.log(devices[i]);
-        try {
-          await this.sendRequest(devices[i]);
-        } catch (err) {
-          this.setState((previousState) => ({
-            serverList: previousState.serverList,
-            isOverlayVisible: false,
-          }));
-          console.warn('lookfor av', err);
-        }
-      }
+    try {
+      await this.lanscan.scan(this.sendRequest);
+    } catch (err) {
+      console.log(err);
+    }
   }
 
 
@@ -108,21 +101,19 @@ class Home extends React.Component {
       });
 
   }
-
-
-  activeOpacity = 1.0
   render() {
     return (
       <>
-        <Elements.Overlay animated isVisible={this.state.isOverlayVisible}>
+        <Elements.Overlay fullScreen animated isVisible={this.state.isOverlayVisible}>
           <ActivityIndicator style={{ flex: 1, }} size="large" color="#000000" />
         </Elements.Overlay>
         <Elements.Tile
           imageSrc={require('./2.jpg')}
-          title="Iniziamo!"
-          activeOpacity={this.activeOpacity}
+          
+          title="Let's start!"
+          activeOpacity={1.0}
           featured
-          caption="Seleziona un computer sul quale connetterti..."
+          caption="Select a computer for connection..."
           titleStyle={{ color: 'black', }}
           captionStyle={{ color: 'black', }}
         />
@@ -133,9 +124,9 @@ class Home extends React.Component {
               <Elements.ListItem icon
                 key={item.key}
                 title={item.key}
-                leftIcon={this.computerIcon}
-                rightIcon={this.arrowIcon}
-                onPress={() => this.props.navigation.navigate('Controller', {ip: item.ip})}
+                leftIcon={computerIcon}
+                rightIcon={arrowIcon}
+                onPress={() => this.props.navigation.navigate('Controller', { ip: item.ip, port: item.port })}
               ></Elements.ListItem>)
             )
             }
@@ -145,11 +136,11 @@ class Home extends React.Component {
           <NativeBase.Button transparent onPress={this.onPressReloadButton} style={{
             justifyContent: 'center',
             alignItems: 'center',
-            alignSelf:'flex-start',
+            alignSelf: 'baseline',
             alignContent: 'center'
 
           }} light>
-            <NativeBase.Icon name='redo' style={{color: 'black'}} type='FontAwesome5' />
+            <NativeBase.Icon name='redo' style={{ color: 'black' }} type='FontAwesome5' />
           </NativeBase.Button>
         </View>
       </>

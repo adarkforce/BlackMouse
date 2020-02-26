@@ -4,36 +4,52 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import Home from './Home'
 import Controller from './Controller'
-import { Button } from 'native-base';
-import { Container, Header, Left, Body, Right, Icon, Title } from 'native-base';
+import { Button, Icon } from 'native-base';
+import Settings from './Settings'
 import { Colors } from 'react-native/Libraries/NewAppScreen';
+import MyHeader from './Header';
 const Stack = createStackNavigator();
+
+function GoBackIcon(props) {
+  return (
+    <Button transparent onPress={props.navigation.goBack} >
+      <Icon name='arrow-back' style={{ color: 'black' }} />
+    </Button>)
+}
+
+
+
+SettingsIcon = <Button transparent >
+                  <Icon name='settings' style={{ color: 'black' }} />
+                </Button>
+
 
 function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator  >
-        <Stack.Screen name="Home" component={Home} />
-        <Stack.Screen name="Controller" component={Controller} options={{         
+        <Stack.Screen name="Home" component={Home} 
+          options={{
+            header: (props) =>{
+              return(<MyHeader title="Home"></MyHeader>)
+            }
+          }}/>
+        <Stack.Screen name="Controller" component={Controller} options={{
           header: (props) => {
             return (
-              <Header>
-                <Left>
-                  <Button transparent onPress={props.navigation.goBack} >
-                    <Icon name='arrow-back' style={{color: 'black'}}/>
-                  </Button>
-                </Left>
-                <Body>
-                  <Title>Controller</Title>
-                </Body>
-                <Right>
-                  <Button transparent >
-                    <Icon name='settings' style={{color: 'black'}}/>
-                  </Button>
-                </Right>
-              </Header> 
-          )
-      } }}/>
+              <MyHeader
+                leftIcon={GoBackIcon(props)}
+                rightIcon={SettingsIcon}
+                title="Controller"
+              ></MyHeader>
+            )
+          }
+        }} />
+        <Stack.Screen name="Settings" component={Settings} options={{
+          header: (props) => {
+            <MyHeader leftIcon={GoBackIcon(props)}></MyHeader>
+          }
+        }}></Stack.Screen>
       </Stack.Navigator>
     </NavigationContainer>
   );
