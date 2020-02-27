@@ -128,7 +128,7 @@ android {
     }
 
     defaultConfig {
-        applicationId "com.myawesomeproject"
+        applicationId "com.adf.blackmouse"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1

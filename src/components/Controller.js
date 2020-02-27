@@ -129,7 +129,7 @@ class Controller extends React.Component {
                     </TapGestureHandler>
                     <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : null} style={{ flex: .4 }}>
                         <View style={{ flex: 1, backgroundColor: 'white' }} >
-                            <NativeBase.Card transparent style={{ justifyContent: 'center', flex: .3 }}>
+                            <NativeBase.Card transparent style={{ justifyContent: 'center', flex: .3,margin:2 }}>
                                 <TextInput
                                     style={{ height: 0, width: 0, borderWidth: 0 }}
                                     ref={ref => {

@@ -1,8 +1,8 @@
 platform :ios, '9.0'
 require_relative '../node_modules/@react-native-community/cli-platform-ios/native_modules'
 
-target 'MyAwesomeProject' do
-  # Pods for MyAwesomeProject
+target 'BlackMouse' do
+  # Pods for BlackMouse
   pod 'FBLazyVector', :path => "../node_modules/react-native/Libraries/FBLazyVector"
   pod 'FBReactNativeSpec', :path => "../node_modules/react-native/Libraries/FBReactNativeSpec"
   pod 'RCTRequired', :path => "../node_modules/react-native/Libraries/RCTRequired"
@@ -36,7 +36,7 @@ target 'MyAwesomeProject' do
 
   pod 'react-native-custom-module', :path => '../node_modules/react-native-custom-module'
 
-  target 'MyAwesomeProjectTests' do
+  target 'BlackMouseTests' do
     inherit! :search_paths
     # Pods for testing
   end
@@ -44,10 +44,10 @@ target 'MyAwesomeProject' do
   use_native_modules!
 end
 
-target 'MyAwesomeProject-tvOS' do
-  # Pods for MyAwesomeProject-tvOS
+target 'BlackMouse-tvOS' do
+  # Pods for BlackMouse-tvOS
 
-  target 'MyAwesomeProject-tvOSTests' do
+  target 'BlackMouse-tvOSTests' do
     inherit! :search_paths
     # Pods for testing
   end
