@@ -5,8 +5,9 @@ import * as NativeBase from 'native-base'
 import { PanGestureHandler, TapGestureHandler, LongPressGestureHandler } from 'react-native-gesture-handler'
 import WebServiceClient from '../api/WebServiceClient';
 
-
-STATE_IN_WHICH_USER_CLICKS = 4;
+//state in which user taps and then releases after 10ms,
+//discriminates between pan gesture and touch
+STATE_IN_WHICH_USER_CLICKS = 4; 
 
 class Controller extends React.Component {
 
@@ -128,7 +129,7 @@ class Controller extends React.Component {
                     </TapGestureHandler>
                     <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : null} style={{ flex: .4 }}>
                         <View style={{ flex: 1, backgroundColor: 'white' }} >
-                            <NativeBase.Card style={{ justifyContent: 'center', flex: 1 }}>
+                            <NativeBase.Card transparent style={{ justifyContent: 'center', flex: .3 }}>
                                 <TextInput
                                     style={{ height: 0, width: 0, borderWidth: 0 }}
                                     ref={ref => {
@@ -146,7 +147,7 @@ class Controller extends React.Component {
                                         }
                                     }} />
 
-                                <NativeBase.Button style={{ justifyContent: 'center', alignItems: 'center', margin: 2 }} dark
+                                <NativeBase.Button style={{ justifyContent: 'center', alignItems: 'center', borderRadius: 2, margin: 2,shadowOpacity: .3,shadowRadius:2 }} dark
                                     onPress={() => {
                                         if (!this.state.keyboardShowing) {
                                             this.textInput.focus();
@@ -156,10 +157,12 @@ class Controller extends React.Component {
                                             Keyboard.dismiss();
                                         }
                                     }}>
-                                    <NativeBase.Icon style={{ justifyContent: 'center' }} name='keyboard' type='Entypo'> </NativeBase.Icon>
+                                    <NativeBase.Body>
+                                        <NativeBase.Icon style={{ justifyContent: 'center', color:'white',marginLeft:'3.5%' }} name='keyboard' type='Entypo'> </NativeBase.Icon>
+                                    </NativeBase.Body>
                                 </NativeBase.Button>
                             </NativeBase.Card>
-                            <NativeBase.Container style={{ backgroundColor: 'white', margin: 2, flex: 2, flexDirection: "row" }}>
+                            <NativeBase.Container style={{ backgroundColor: 'white', borderRadius:40, margin: 2, flex: 1, flexDirection: "row" }}>
                                 <NativeBase.Button onPress={this._callMouseLeftClick} dark style={styles.mouseButton}></NativeBase.Button>
                                 <NativeBase.Button onPress={this._callMouseRightClick} dark style={styles.mouseButton}></NativeBase.Button>
                             </NativeBase.Container >
@@ -172,7 +175,7 @@ class Controller extends React.Component {
 }
 const styles = StyleSheet.create({
     mouseButton: {
-        flex: 1, margin: 3,
+        flex: 1, margin: 2, height: '35%', borderRadius:2, shadowOpacity: .2,shadowRadius:2
     }
 })
 export default Controller;

@@ -11,16 +11,18 @@ import {
   Colors,
 } from 'react-native/Libraries/NewAppScreen';
 import LANScanner from "../api/LANScanner"
+import { color } from 'react-native-reanimated';
 
 computerIcon = <Elements.Icon
   name='desktop'
   type='font-awesome'
-  color='black'
+  color='white'
 />
 
 arrowIcon = <Elements.Icon
   name='chevron-right'
-  type='font-awesome' />
+  type='font-awesome' 
+  color='white'/>
 
 class Home extends React.Component {
 
@@ -75,6 +77,7 @@ class Home extends React.Component {
   }
   lookForAvailableNetworks = async () => {
     console.log("clicked");
+    this.setState({serverList: []})
     try {
       await this.lanscan.scan(this.sendRequest);
     } catch (err) {
@@ -106,17 +109,18 @@ class Home extends React.Component {
   render() {
     return (
       <>
-        <Elements.Overlay fullScreen animated isVisible={this.state.isOverlayVisible}>
-          <ActivityIndicator style={{ flex: 1, }} size="large" color="black" />
+        <Elements.Overlay fullScreen overlayStyle={{backgroundColor:'black'}} animated isVisible={this.state.isOverlayVisible}>
+          <ActivityIndicator style={{ flex: 1, }} size="large" color="white" />
         </Elements.Overlay>
         <Elements.Tile
-          imageSrc={require('../img/2.jpg')}
+          imageSrc={require('../img/black.jpg')}
           title="Let's start!"
           activeOpacity={1.0}
           featured
           caption="Select a computer for connection..."
-          titleStyle={{ color: 'black', }}
-          captionStyle={{ color: 'black', }}
+          titleStyle={{ color: 'white'}}
+          captionStyle={{ color: 'white', }}
+          
         />
 
         <View style={styles.availableListContainer}>
@@ -125,23 +129,28 @@ class Home extends React.Component {
               <Elements.ListItem icon
                 key={item.key}
                 title={item.key}
+                subtitle={item.ip}
                 leftIcon={computerIcon}
                 rightIcon={arrowIcon}
                 onPress={() => this.props.navigation.navigate('Controller', { ip: item.ip, port: item.port })}
+                containerStyle={{backgroundColor:'black'}}
+                titleStyle={{color:'white'}}
+                subtitleStyle={{color:'white'}}
               ></Elements.ListItem>)
             )
             }
           </ScrollView>
         </View>
         <View style={styles.reloadIconContainer}>
-          <NativeBase.Button transparent onPress={this.onPressReloadButton} style={{
+          <NativeBase.Button onPress={this.onPressReloadButton} style={{
             justifyContent: 'center',
             alignItems: 'center',
             alignSelf: 'baseline',
-            alignContent: 'center'
-
-          }} light>
-            <NativeBase.Icon name='redo' style={{ color: 'black' }} type='FontAwesome5' />
+            alignContent: 'center',
+            borderRadius: 50,
+            
+          }}  dark>
+            <NativeBase.Icon name='redo' style={{ color: 'white' }} type='FontAwesome5' />
           </NativeBase.Button>
         </View>
       </>
@@ -198,8 +207,9 @@ const styles = StyleSheet.create({
   },
   reloadIconContainer: {
     justifyContent: "center",
-    flex: 1,
-    flexDirection: 'row'
+    flex: .5,
+    flexDirection: 'row',
+    
   }
 });
 

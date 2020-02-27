@@ -65,7 +65,7 @@ class Settings extends React.Component {
     render() {
         return (
             <NativeBase.Container>
-                <NativeBase.Content>
+                <NativeBase.Content style={{padding:5,backgroundColor:'black'}}>
                     <NativeBase.Card>
                         <NativeBase.CardItem header>
                             <NativeBase.Text>Mouse Pointer Sensitivity</NativeBase.Text>
