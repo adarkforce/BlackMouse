@@ -3,7 +3,7 @@
 ## Control your computer with your Smartphone
 
 
-<p align="center" ><img height="300" src="https://raw.githubusercontent.com/adarkforce/BlackMouse/master/readme-files/black-mouse-icon.png?token=AMAVGAHP2VYEKGBUIIYCXSK6LATOW" /></p>
+<p align="center" ><img height="300" src="https://github.com/adarkforce/BlackMouse/blob/master/readme-files/black-mouse-icon.png?raw=true" /></p>
 
 
 ## Set-up
